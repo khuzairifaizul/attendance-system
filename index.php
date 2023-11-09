@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                   <p class="text-dark-50 mb-5">Please enter your login and password!</p>
                   <div class="form-outline form-white mb-4">
-                    <input type="email" id="email" class="form-control form-control-lg" name="username" />
+                    <input type="text" id="email" class="form-control form-control-lg" name="username" />
                     <label class="form-label" for="email">Username</label>
                   </div>
                   <div class="form-outline form-white mb-4">

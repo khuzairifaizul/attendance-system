@@ -2,15 +2,15 @@
 include 'session.php';
 
 // Perform the query to fetch subject names
-$query = "SELECT subject.sub_fName
-          FROM student_class
-          JOIN class ON student_class.class_ID = class.class_ID
-          JOIN subject ON class.sub_ID = subject.sub_ID
-          WHERE student_class.stud_ID = :student_id";
-$stmt = $conn->prepare($query);
-$stmt->bindParam(':student_id', $userID);
-$stmt->execute();
-$subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$query_subject = "SELECT subject.sub_ID, subject.sub_fName
+                  FROM student_class
+                  JOIN class ON student_class.class_ID = class.class_ID
+                  JOIN subject ON class.sub_ID = subject.sub_ID
+                  WHERE student_class.stud_ID = :student_id";
+$stmt_subject = $conn->prepare($query_subject);
+$stmt_subject->bindParam(':student_id', $userID);
+$stmt_subject->execute();
+$subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
@@ -56,6 +56,17 @@ $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <!-- Page Features-->
       <?php
       foreach ($subjects as $subject) {
+        // Perform the query to fetch subject names
+        $query_absent = "SELECT COUNT(`attendance-log`.log_ID)
+                         FROM `attendance-log`
+                         WHERE `attendance-log`.stud_ID = :student_id
+                         AND `attendance-log`.sub_ID = :subject_id
+                         AND status = 0";
+        $stmt_absent = $conn->prepare($query_absent);
+        $stmt_absent->bindParam(':student_id', $userID);
+        $stmt_absent->bindParam(':subject_id', $subject['sub_ID']);
+        $stmt_absent->execute();
+        $absent = $stmt_absent->fetchColumn();
         echo '<div class="row gx-lg-5">';
         echo '<div class="col-lg-6 col-xxl-4 mb-5">';
         echo '<div class="card bg-light border-0 h-100">';
@@ -64,8 +75,7 @@ $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo '<i class="bi bi-collection"></i>';
         echo '</div>';
         echo '<h2 class="fs-4 fw-bold">' . $subject['sub_fName'] . '</h2>';
-        // You can include additional information here if needed
-        echo '<p class="mb-0">Absent Total: 3</p>'; // You might need to replace this with actual data
+        echo '<p class="mb-0">' . 'Absent Total: '  . $absent . '/14' .'</p>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
