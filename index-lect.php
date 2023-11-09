@@ -3,9 +3,9 @@ include 'session.php';
 
 $query_subject = "SELECT subject.sub_ID, subject.sub_fName
                   FROM subject
-                  WHERE subject.lect_ID = :lect_id;";
+                  WHERE subject.lect_ID = :lecturer_id;";
 $stmt_subject = $conn->prepare($query_subject);
-$stmt_subject->bindParam(':lect_id', $userID);
+$stmt_subject->bindParam(':lecturer_id', $userID);
 $stmt_subject->execute();
 $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
 ?>
