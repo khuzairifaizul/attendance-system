@@ -1,35 +1,41 @@
 <?php
 include 'session.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Check if the form is submitted
-  if (isset($_POST['status'])) {
-    $statusData = $_POST['status'];
-    // Loop through the submitted status data
-    foreach ($statusData as $studentName => $weeks) {
-      foreach ($weeks as $weekNo => $status) {
-        // Convert $status to an integer (0 or 1)
-        $status = ($status == '0') ? 0 : 1;
+$selectedSubjectID = isset($_GET['subject_id']) ? $_GET['subject_id'] : null;
 
-        // Prepare and execute the SQL update statement
-        $query = "UPDATE `attendance-log` 
-                      SET status = :status 
-                      WHERE stud_ID = (SELECT stud_ID FROM student WHERE stud_fName = :studentName)
-                      AND weekNo = :weekNo
-                      AND sub_ID = :subjectID";
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'])) {
+  try {
+      $conn->beginTransaction();
 
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':studentName', $studentName);
-        $stmt->bindParam(':weekNo', $weekNo);
-        $stmt->bindParam(':subjectID', $subject['sub_ID']);  // Use the correct subject identifier
+      $statusData = $_POST['status'];
 
-        $stmt->execute();
+      foreach ($statusData as $studentName => $weeks) {
+          foreach ($weeks as $weekNo => $status) {
+              $status = ($status == '0') ? 0 : 1;
+
+              $query = "UPDATE `attendance-log`
+                        SET status = :status
+                        WHERE stud_ID IN (SELECT stud_ID FROM student WHERE stud_fName = :studentName)
+                        AND weekNo = :weekNo
+                        AND sub_ID = :subject_id";
+
+              $stmt = $conn->prepare($query);
+              $stmt->bindParam(':status', $status);
+              $stmt->bindParam(':studentName', $studentName);
+              $stmt->bindParam(':weekNo', $weekNo);
+              $stmt->bindParam(':subject_id', $selectedSubjectID);
+
+              $stmt->execute();
+          }
       }
-    }
-    // Redirect or display a success message after updating the database
-    header("Location: report.php");
-    exit();
+
+      $conn->commit();
+      header("Location: report.php?subject_id=$selectedSubjectID");
+      exit();
+  } catch (PDOException $e) {
+      $conn->rollBack();
+      echo "Error: " . $e->getMessage();
   }
 }
 
@@ -40,6 +46,15 @@ $stmt_subject = $conn->prepare($query_subject);
 $stmt_subject->bindParam(':lecturer_id', $userID);
 $stmt_subject->execute();
 $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch the subject outside the loop
+$subject = null;
+foreach ($subjects as $subj) {
+  if ($subj['sub_ID'] == $selectedSubjectID) {
+    $subject = $subj;
+    break;
+  }
+}
 
 // Loop through the subjects
 foreach ($subjects as $subject) {
@@ -54,12 +69,13 @@ foreach ($subjects as $subject) {
                   AND subject.sub_ID = :subject_id;";
   $stmt_table = $conn->prepare($query_table);
   $stmt_table->bindParam(':lecturer_id', $userID);
-  $stmt_table->bindParam(':subject_id', $subject['sub_ID']);
+  $stmt_table->bindParam(':subject_id', $selectedSubjectID);
 
   // Execute the query for the current subject
   $stmt_table->execute();
   $table = $stmt_table->fetchAll(PDO::FETCH_ASSOC);
 }
+
 // Initialize an empty array to organize data by student and week
 $organizedData = [];
 
@@ -76,7 +92,10 @@ foreach ($table as $row) {
   // Assign the status to the corresponding week
   $organizedData[$studentName][$weekNo] = $status;
 }
+
+// Rest of your code...
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -86,6 +105,7 @@ foreach ($table as $row) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FMKK Attendance System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -110,8 +130,8 @@ foreach ($table as $row) {
     <div class="container px-lg-5">
       <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
         <h3>Attendance for Class</h3>
-        <div class="p-4 p-lg-5 bg-light rounded-3 text-center table-responsive">
-          <form method="post" action="report.php">
+        <div class="p-4 p-lg-5 bg-light rounded-3 text-center table-responsive" id="attendance-form">
+        <form method="post" action="report.php?subject_id=<?php echo $selectedSubjectID; ?>">
             <table class="table" style="width: 100%;">
               <thead>
                 <tr>
