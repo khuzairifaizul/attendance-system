@@ -6,36 +6,36 @@ $selectedSubjectID = isset($_GET['subject_id']) ? $_GET['subject_id'] : null;
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'])) {
   try {
-      $conn->beginTransaction();
+    $conn->beginTransaction();
 
-      $statusData = $_POST['status'];
+    $statusData = $_POST['status'];
 
-      foreach ($statusData as $studentName => $weeks) {
-          foreach ($weeks as $weekNo => $status) {
-              $status = ($status == '0') ? 0 : 1;
+    foreach ($statusData as $studentName => $weeks) {
+      foreach ($weeks as $weekNo => $status) {
+        $status = ($status == '0') ? 0 : 1;
 
-              $query = "UPDATE `attendance-log`
+        $query = "UPDATE `attendance-log`
                         SET status = :status
                         WHERE stud_ID IN (SELECT stud_ID FROM student WHERE stud_fName = :studentName)
                         AND weekNo = :weekNo
                         AND sub_ID = :subject_id";
 
-              $stmt = $conn->prepare($query);
-              $stmt->bindParam(':status', $status);
-              $stmt->bindParam(':studentName', $studentName);
-              $stmt->bindParam(':weekNo', $weekNo);
-              $stmt->bindParam(':subject_id', $selectedSubjectID);
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':studentName', $studentName);
+        $stmt->bindParam(':weekNo', $weekNo);
+        $stmt->bindParam(':subject_id', $selectedSubjectID);
 
-              $stmt->execute();
-          }
+        $stmt->execute();
       }
+    }
 
-      $conn->commit();
-      header("Location: report.php?subject_id=$selectedSubjectID");
-      exit();
+    $conn->commit();
+    header("Location: report.php?subject_id=$selectedSubjectID");
+    exit();
   } catch (PDOException $e) {
-      $conn->rollBack();
-      echo "Error: " . $e->getMessage();
+    $conn->rollBack();
+    echo "Error: " . $e->getMessage();
   }
 }
 
@@ -111,27 +111,26 @@ foreach ($table as $row) {
 <body>
   <!-- Responsive navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container px-lg-5">
-      <a class="navbar-brand" href="#!">FMKK ATTENDANCE SYSTEM</a>
+    <div class="container px-lg-6">
+      <a class="navbar-brand">FMKK ATTENDANCE SYSTEM</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#!">Attendance Logs</a></li>
-          <li class="nav-item"><a class="nav-link" href="#!">Attendance Report</a></li>
+          <li class="nav-item"><a class="nav-link" href="index-lect.php">Home</a></li>
+          <li class="nav-item"><a class="nav-link btn btn-danger" href="kill.php">Log out</a></li>
         </ul>
       </div>
     </div>
   </nav>
   <!-- Header-->
-  <header class="py-5">
-    <div class="container px-lg-5">
+  <header class="col-md-12 p-5">
+    <div class="container-fluid px-lg-5">
       <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
-        <h3>Attendance for Class</h3>
-        <div class="p-4 p-lg-5 bg-light rounded-3 text-center table-responsive" id="attendance-form">
-        <form method="post" action="report.php?subject_id=<?php echo $selectedSubjectID; ?>">
+        <h3>Attendance for Class <?php echo $selectedSubjectID ?></h3>
+        <div class="p-2 bg-light rounded-3 text-center table-responsive" id="attendance-form">
+          <form method="post" action="report.php?subject_id=<?php echo $selectedSubjectID; ?>">
             <table class="table" style="width: 100%;">
               <thead>
                 <tr>
@@ -151,7 +150,6 @@ foreach ($table as $row) {
                     <?php for ($weekNo = 1; $weekNo <= 14; $weekNo++) : ?>
                       <td>
                         <select name="status[<?php echo $studentName; ?>][<?php echo $weekNo; ?>]">
-                          <option value="-">-</option>
                           <option value="0" <?php echo ($weeks[$weekNo] == 0) ? 'selected' : ''; ?> style="color: red;">Absent</option>
                           <option value="1" <?php echo ($weeks[$weekNo] == 1) ? 'selected' : ''; ?> style="color: green;">Present</option>
                         </select>
@@ -161,7 +159,10 @@ foreach ($table as $row) {
                 <?php endforeach; ?>
               </tbody>
             </table>
-            <input type="submit" value="Update Status">
+            <div class="d-flex justify-content-end">
+              <a class="btn btn-outline-danger me-2" type="reset" href="report.php?subject_id=<?php echo $selectedSubjectID; ?>">Reset</a>
+              <input class="btn btn-dark pl-2" type="submit" value="Update Attendance">
+            </div>
           </form>
         </div>
       </div>
