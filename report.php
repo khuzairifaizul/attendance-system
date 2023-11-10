@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'])) {
         $status = ($status == '0') ? 0 : 1;
 
         $query = "UPDATE `attendance-log`
-                        SET status = :status
-                        WHERE stud_ID IN (SELECT stud_ID FROM student WHERE stud_fName = :studentName)
-                        AND weekNo = :weekNo
-                        AND sub_ID = :subject_id";
+                  SET status = :status
+                  WHERE stud_ID IN (SELECT stud_ID FROM student WHERE stud_fName = :studentName)
+                  AND weekNo = :weekNo
+                  AND sub_ID = :subject_id";
 
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':status', $status);
@@ -92,14 +92,12 @@ foreach ($table as $row) {
   // Assign the status to the corresponding week
   $organizedData[$studentName][$weekNo] = $status;
 }
-
-// Rest of your code...
 ?>
 
+<!-- endof PHP, startof HTML -->
 
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -107,7 +105,6 @@ foreach ($table as $row) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
-
 <body>
   <!-- Responsive navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -174,5 +171,4 @@ foreach ($table as $row) {
   <script src="js/scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

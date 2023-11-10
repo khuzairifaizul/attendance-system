@@ -1,5 +1,4 @@
 <?php
-
 include "database.php";
 session_start();
 
@@ -7,13 +6,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // Initialize PDO connection
-    $db_conn = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
-    $db_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Check if the user is a student
     $query = "SELECT * FROM student WHERE stud_fMail = :username AND stud_fPwd = :password";
-    $stmt = $db_conn->prepare($query);
+    $stmt = $conn->prepare($query);
     $stmt->bindParam(':username', $username);
     $stmt->bindParam(':password', $password);
     $stmt->execute();
@@ -22,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If not a student, check if the user is a lecturer
     if (!$student) {
         $query = "SELECT * FROM lecturer WHERE lect_fMail = :username AND lect_fPwd = :password";
-        $stmt = $db_conn->prepare($query);
+        $stmt = $conn->prepare($query);
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
@@ -47,10 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: index-stud.php");
     }
 }
-
-
 ?>
 
+<!-- endof PHP, startof HTML -->
 
 <!doctype html>
 <html lang="en">
@@ -68,8 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
           <div class="card text-dark">
-            <div class="card-body bg-light rounded text-dark p-5 text-center"
-              <form action="index.php" method="post">
+            <div class="card-body bg-light rounded text-dark p-5 text-center">
+            <form action="index.php" method="post">
                 <div class="mb-md-5 mt-md-4 pb-5">
                   <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
                   <p class="text-dark-50 mb-5">Please enter your login and password!</p>
@@ -92,5 +86,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </section>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

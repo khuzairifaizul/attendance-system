@@ -1,5 +1,11 @@
 <?php
-include 'session.php';
+include_once 'session.php';
+
+if (!isset($_SESSION['user_id'])) {
+  header("Location: index.php");
+} else {
+  ("");
+}
 
 // Fetch subjects
 $query_subject = "SELECT subject.sub_ID, subject.sub_fName
@@ -9,12 +15,12 @@ $stmt_subject = $conn->prepare($query_subject);
 $stmt_subject->bindParam(':lecturer_id', $userID);
 $stmt_subject->execute();
 $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
+
+<!-- endof PHP, startof HTML -->
 
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,9 +32,7 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
     }
   </style>
 </head>
-
 <body>
-
   <!-- Responsive navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-lg-5">
@@ -43,7 +47,6 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </div>
   </nav>
-
   <!-- Header-->
   <header class="py-5">
     <div class="container px-lg-5">
@@ -55,7 +58,6 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </div>
   </header>
-
   <!-- Page Content-->
   <section class="pt-4">
     <a href=""></a>
@@ -96,15 +98,12 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
         }
         ?>
       </div>
-
     </div>
   </section>
-
   <!-- Bootstrap core JS-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Core theme JS-->
   <script src="js/scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
