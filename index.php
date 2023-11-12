@@ -54,6 +54,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FMKK Attendance System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <style>
+      body{
+            background-image:url('bgO.png');
+            background-attachment:fixed;
+            background-size:100% 100%;
+      }
+
+  </style>
 </head>
 
 <body>
@@ -66,10 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="index.php" method="post">
                 <div class="mb-md-5 mt-md-4 pb-5">
                   <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                  <p class="text-dark-50 mb-5">Please enter your login and password!</p>
+                  <p class="text-dark-50 mb-5">Please enter your email and password!</p>
                   <div class="form-outline form-white mb-4">
                     <input type="text" id="email" class="form-control form-control-lg" name="username" />
-                    <label class="form-label" for="email">Username</label>
+                    <label class="form-label" for="email">Email</label>
                   </div>
                   <div class="form-outline form-white mb-4">
                     <input type="password" id="password" class="form-control form-control-lg" name="password" />

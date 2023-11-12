@@ -28,6 +28,13 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FMKK Attendance System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      body{
+            background-image:url('bgO.png');
+            background-attachment:fixed;
+            background-size:100% 100%;
+      }
+  </style>
 </head>
 <body>
   <!-- Responsive navbar-->

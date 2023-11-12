@@ -104,6 +104,13 @@ foreach ($table as $row) {
   <title>FMKK Attendance System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <style>
+      body{
+            background-image:url('bgO.png');
+            background-attachment:fixed;
+            background-size:100% 100%;
+          }
+  </style>
 </head>
 <body>
   <!-- Responsive navbar-->
@@ -126,6 +133,18 @@ foreach ($table as $row) {
     <div class="container-fluid px-lg-5">
       <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
         <h3>Attendance for Class <?php echo $selectedSubjectID ?></h3>
+        
+        <div class="row m-1 m-2">
+          <div class= "col-sm-8">
+            <div class="col-sm-4">
+                <label for="searchInput" class="form-label visually-hidden">Search Student:</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search student...">
+                <button class="btn btn-dark" id="searchButton" type="button">Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="p-2 bg-light rounded-3 text-center table-responsive" id="attendance-form">
           <form method="post" action="report.php?subject_id=<?php echo $selectedSubjectID; ?>">
             <table class="table" style="width: 100%;">
@@ -141,8 +160,21 @@ foreach ($table as $row) {
               <tbody>
                 <!-- Iterate through organized data -->
                 <?php foreach ($organizedData as $studentName => $weeks) : ?>
+                  <?php $absentCount = count(array_filter($weeks, function ($status) {
+                          return $status == 0;
+                        }));
+                        if ($absentCount >= 3 && $absentCount <= 4) {
+                          $nameStyle = 'color: orange;';
+                        } elseif ($absentCount >= 5) {
+                          $nameStyle = 'color: red;';
+                        } else {
+                          $nameStyle = ''; // No change in color
+                        }
+                      ?>
                   <tr>
-                    <td><?php echo $studentName; ?></td>
+                    <td style="<?php echo $nameStyle; ?>">
+                    <?php echo $studentName; ?></td>
+                      
                     <!-- Display dropdown menu for each week -->
                     <?php for ($weekNo = 1; $weekNo <= 14; $weekNo++) : ?>
                       <td>
@@ -165,6 +197,20 @@ foreach ($table as $row) {
       </div>
     </div>
   </header>
+
+  <script>
+  // JavaScript code to handle the search functionality
+  document.getElementById('searchButton').addEventListener('click', function () {
+    var searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+    // Iterate through table rows and hide/show based on the search input
+    var tableRows = document.querySelectorAll('#attendance-form tbody tr');
+    tableRows.forEach(function (row) {
+      var studentName = row.querySelector('td:first-child').textContent.toLowerCase();
+      row.style.display = (studentName.includes(searchInput)) ? '' : 'none';
+    });
+  });
+</script>
   <!-- Bootstrap core JS-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Core theme JS-->
