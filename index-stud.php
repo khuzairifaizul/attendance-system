@@ -80,14 +80,23 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
           $stmt_absent->bindParam(':subject_id', $subject['sub_ID']);
           $stmt_absent->execute();
           $absent = $stmt_absent->fetchColumn();
+
+           // Calculate present percentage
+           $present = 14 - $absent; // Assuming total classes are 14
+           $presentPercentage = ($present / 14) * 100;
+
+           // Determine card color based on the number of absences
+           $cardColor = ($absent >= 3 && $absent <= 4) ? 'bg-warning' : (($absent >= 5) ? 'bg-danger' : 'bg-success');
+
           echo '<div class="col-lg-6 col-xxl-4 mb-5">';
-          echo '<div class="card bg-light border-0 h-100">';
+          echo '<div class="card ' . $cardColor . ' border-0 h-100">';
           echo '<div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">';
           echo '<div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">';
           echo '<i class="bi bi-collection"></i>';
           echo '</div>';
           echo '<h2 class="fs-4 fw-bold">' . $subject['sub_fName'] . '</h2>';
           echo '<p class="mb-0">' . 'Absent Total: '  . $absent . '/14' . '</p>';
+          echo '<p class="mb-0">' . 'Attendance: '  . number_format($presentPercentage, 2) . '%' . '</p>';
           echo '</div>';
           echo '</div>';
           echo '</div>';
