@@ -54,9 +54,9 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
   <!-- Header-->
   <header class="py-5">
     <div class="container px-lg-5">
-      <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+      <div class="p-4 p-lg-5 bg-transparent rounded-3 text-center">
         <div class="m-4 m-lg-5">
-          <h1 class="display-5 fw-bold">Welcome Student 👋</h1>
+          <h1 class="display-5 fw-bold">Welcome Student !!</h1>
           <p class="fs-4"><?php echo $userName; ?></p>
         </div>
       </div>

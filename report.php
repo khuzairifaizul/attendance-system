@@ -131,7 +131,7 @@ foreach ($table as $row) {
   <!-- Header-->
   <header class="col-md-12 p-5">
     <div class="container-fluid px-lg-5">
-      <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+      <div class="p-4 p-lg-5 bg-transparent rounded-3 text-center">
         <h3>Attendance for Class <?php echo $selectedSubjectID ?></h3>
         
         <div class="row m-1 m-2">

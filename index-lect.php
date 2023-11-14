@@ -57,9 +57,9 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
   <!-- Header-->
   <header class="py-5">
     <div class="container px-lg-5">
-      <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+      <div class="p-4 p-lg-5 bg-dark text-white rounded-3 text-center">
         <div class="m-4 m-lg-5">
-          <h1 class="display-5 fw-bold">Welcome Lecturer 👋</h1>
+          <h1 class="display-5 fw-bold">Welcome Lecturer!!</h1>
           <p class="fs-4"><?php echo $userName; ?></p>
         </div>
       </div>
@@ -91,7 +91,7 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
           // Display the card
           echo '<div class="col-lg-6 col-xxl-4 mb-5">';
           echo '<a href="report.php?subject_id=' . $subject['sub_ID'] . '">';
-          echo '<div class="card bg-light border-0 h-100">';
+          echo '<div class="card bg-dark text-white border-0 h-100">';
           echo '<div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">';
           echo '<div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">';
           echo '<i class="bi bi-collection"></i>';
