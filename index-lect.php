@@ -24,11 +24,11 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FMKK Attendance System</title>
+  <title>Student Attendance System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
         body {
-                    background-image:url('bgO.png');
+                    background-image:url('bgo3.png');
                     background-attachment:fixed;
                     background-size:100% 100%;
               } 
@@ -43,7 +43,9 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
   <!-- Responsive navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-lg-5">
-      <a class="navbar-brand">FMKK ATTENDANCE SYSTEM</a>
+    <a class="navbar-brand">
+      <img src="UIS.png" height="30" class="d-inline-block align-text-top">
+      STUDENT ATTENDANCE SYSTEM</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

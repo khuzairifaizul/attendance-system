@@ -26,11 +26,11 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FMKK Attendance System</title>
+  <title>Student Attendance System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
       body{
-            background-image:url('bgO.png');
+            background-image:url('bgo3.png');
             background-attachment:fixed;
             background-size:100% 100%;
       }
@@ -40,7 +40,10 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
   <!-- Responsive navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-lg-5">
-      <a class="navbar-brand">FMKK ATTENDANCE SYSTEM</a>
+    <a class="navbar-brand">
+      <img src="UIS.png" height="30" class="d-inline-block align-text-top">
+      STUDENT ATTENDANCE SYSTEM
+    </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -54,10 +57,10 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
   <!-- Header-->
   <header class="py-5">
     <div class="container px-lg-5">
-      <div class="p-4 p-lg-5 bg-transparent rounded-3 text-center">
+      <div class="p-4 p-lg-5 bg-transparent text-white rounded-3 text-center">
         <div class="m-4 m-lg-5">
-          <h1 class="display-5 fw-bold">Welcome Student !!</h1>
-          <p class="fs-4"><?php echo $userName; ?></p>
+          <h1 class="display-3 fw-bold">Welcome Student !!</h1>
+          <p class="fs-2"><?php echo $userName; ?></p>
         </div>
       </div>
     </div>
@@ -82,14 +85,14 @@ $subjects = $stmt_subject->fetchAll(PDO::FETCH_ASSOC);
           $absent = $stmt_absent->fetchColumn();
 
            // Calculate present percentage
-           $present = 14 - $absent; // Assuming total classes are 14
+           $present = 14 - $absent; // total class 14
            $presentPercentage = ($present / 14) * 100;
 
            // Determine card color based on the number of absences
-           $cardColor = ($absent >= 3 && $absent <= 4) ? 'bg-warning' : (($absent >= 5) ? 'bg-danger' : 'bg-success');
+           $cardColor = ($absent >= 3 && $absent <= 4) ? 'bg-warning' : (($absent >= 5) ? 'bg-danger' : 'bg-dark');
 
           echo '<div class="col-lg-6 col-xxl-4 mb-5">';
-          echo '<div class="card ' . $cardColor . ' border-0 h-100">';
+          echo '<div class="card ' . $cardColor . ' text-white border-0 h-100">';
           echo '<div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">';
           echo '<div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">';
           echo '<i class="bi bi-collection"></i>';

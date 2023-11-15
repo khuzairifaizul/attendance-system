@@ -52,12 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FMKK Attendance System</title>
+  <title>Student Attendance System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap core CSS -->
   <style>
       body{
-            background-image:url('bgO.png');
+            background-image:url('bgO3.png');
             background-attachment:fixed;
             background-size:100% 100%;
       }

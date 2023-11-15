@@ -101,22 +101,27 @@ foreach ($table as $row) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FMKK Attendance System</title>
+  <title>Student Attendance System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <style>
       body{
-            background-image:url('bgO.png');
+            background-image:url('bgo3.png');
             background-attachment:fixed;
             background-size:100% 100%;
           }
+          .bg-custom-orange {
+            background-color: #ff9900; 
+    }
   </style>
 </head>
 <body>
   <!-- Responsive navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-lg-6">
-      <a class="navbar-brand">FMKK ATTENDANCE SYSTEM</a>
+      <a class="navbar-brand">
+      <img src="UIS.png" height="30" class="d-inline-block align-text-top">
+      STUDENT ATTENDANCE SYSTEM</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -194,9 +199,50 @@ foreach ($table as $row) {
             </div>
           </form>
         </div>
+      <div class="row">
+        <div class="col-lg-6 col-xxl-4 mb-5">
+          <div class="card-body bg-dark text-white border-0 h-100">
+            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
+                <i class="bi bi-collection"></i>
+              </div>
+                <h2 class="fs-4 fw-bold">Attendance > 80%</h2>
+                <p class="mb-0">Good Student</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-xxl-4 mb-5">
+          <div class="card-body bg-custom-orange border-0 h-100">
+            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
+                <i class="bi bi-collection"></i>
+              </div>
+                <h2 class="fs-4 fw-bold">Attendance < 80% </h2>
+                <p class="mb-0">Give warning !</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-xxl-4 mb-5">
+          <div class="card-body bg-danger border-0 h-100">
+            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+              <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
+                <i class="bi bi-collection"></i>
+              </div>
+                <h2 class="fs-4 fw-bold">Attendance < 70%</h2>
+                <p class="mb-0">Bar the student !!</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
       </div>
     </div>
+    
   </header>
+
 
   <script>
   // JavaScript code to handle the search functionality
